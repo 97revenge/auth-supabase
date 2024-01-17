@@ -13,10 +13,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { TabsContent } from "@/components/ui/tabs";
 import dynamic from "next/dynamic";
-import { ReactNode } from "react";
+import Image from "next/image";
 
 const TabsDemo = dynamic(() => import("../../components/Tabs"), {
-  loading: () => <p>Loading...</p>,
+  loading: ({ error }) => (error ? <> Error </> : <> loading</>),
   ssr: false,
 });
 
@@ -26,24 +26,39 @@ export default function Page() {
       <Gradient>
         <div className="w-full h-full flex items-center justify-center ">
           <TabsDemo>
-            <TabsContent value="account">
+            <TabsContent value="sign">
               <Card>
                 <CardHeader>
-                  <CardTitle>Account</CardTitle>
+                  <CardTitle>sign</CardTitle>
                   <CardDescription>
-                    Make changes to your account here. Click save when youre
-                    done.
+                    Make changes to your sign here. Click save when youre done.
                   </CardDescription>
                 </CardHeader>
                 <form>
                   <CardContent className="space-y-2">
                     <div className="space-y-1">
                       <Label htmlFor="name">Name</Label>
-                      <Input id="name" defaultValue="Pedro Duarte" />
+                      <Input
+                        id="name"
+                        defaultValue="Pedro Duarte"
+                        placeholder="Digite seu nome "
+                      />
                     </div>
                     <div className="space-y-1">
-                      <Label htmlFor="username">Username</Label>
-                      <Input id="username" defaultValue="@peduarte" />
+                      <Label htmlFor="email">email</Label>
+                      <Input
+                        id="email"
+                        defaultValue=""
+                        placeholder="Digite seu email"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <Label htmlFor="number">number</Label>
+                      <Input
+                        id="tel"
+                        defaultValue=""
+                        placeholder="digite seu number"
+                      />
                     </div>
                     <CardFooter>
                       <Button>Save changes</Button>
@@ -52,27 +67,44 @@ export default function Page() {
                 </form>
               </Card>
             </TabsContent>
-            <TabsContent value="password">
+            <TabsContent value="login">
               <Card>
                 <CardHeader>
-                  <CardTitle>Password</CardTitle>
-                  <CardDescription>
-                    Change your password here. After saving, youll be logged
-                    out.
+                  <CardTitle>login</CardTitle>
+                  <CardDescription className="pb-5">
+                    Change your login here. After saving, youll be logged out.
                   </CardDescription>
+                  <Button className="flex items-center justify-center gap-x-2 align-baseline bg-gray-600">
+                    Login with
+                    <Image
+                      width={50}
+                      height={50}
+                      alt="google icon"
+                      src="https://api.iconify.design/logos:google.svg"
+                      className="align-baseline pt-1"
+                    />
+                  </Button>
                 </CardHeader>
                 <form>
                   <CardContent className="space-y-2">
                     <div className="space-y-1">
-                      <Label htmlFor="current">Current password</Label>
-                      <Input id="current" type="password" />
+                      <Label htmlFor="name">Name</Label>
+                      <Input
+                        id="name"
+                        defaultValue=""
+                        placeholder="Digite seu nome "
+                      />
                     </div>
                     <div className="space-y-1">
-                      <Label htmlFor="new">New password</Label>
-                      <Input id="new" type="password" />
+                      <Label htmlFor="email">email</Label>
+                      <Input
+                        id="email"
+                        defaultValue=""
+                        placeholder="Digite seu email"
+                      />
                     </div>
                     <CardFooter>
-                      <Button>Save password</Button>
+                      <Button>Save login</Button>
                     </CardFooter>
                   </CardContent>
                 </form>
