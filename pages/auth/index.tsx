@@ -96,14 +96,7 @@ export default function Page() {
                   <CardDescription className="pb-5">
                     Change your login here. After saving, youll be logged out.
                   </CardDescription>
-                  <Button
-                    className="flex items-center justify-center gap-x-2 align-baseline bg-gray-600"
-                    onClick={() =>
-                      supabase.auth.signInWithOAuth({
-                        provider: "google",
-                      })
-                    }
-                  >
+                  <Button className="flex items-center justify-center gap-x-2 align-baseline bg-gray-600">
                     Login with
                     <Image
                       width={50}
