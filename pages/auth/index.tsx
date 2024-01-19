@@ -1,4 +1,5 @@
 import Gradient from "@/components/Gradient";
+
 import { supabase } from "@/lib/supabase/supabase";
 
 import { Button } from "@/components/ui/button";
@@ -15,6 +16,7 @@ import { Label } from "@/components/ui/label";
 import { TabsContent } from "@/components/ui/tabs";
 import dynamic from "next/dynamic";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 const TabsDemo = dynamic(() => import("../../components/Tabs"), {
   loading: ({ error }) =>
@@ -43,6 +45,7 @@ const TabsDemo = dynamic(() => import("../../components/Tabs"), {
 });
 
 export default function Page() {
+  const route = useRouter();
   return (
     <>
       <Gradient>
@@ -96,7 +99,14 @@ export default function Page() {
                   <CardDescription className="pb-5">
                     Change your login here. After saving, youll be logged out.
                   </CardDescription>
-                  <Button className="flex items-center justify-center gap-x-2 align-baseline bg-gray-600">
+                  <Button
+                    onClick={() =>
+                      route.push({
+                        pathname: "/api/auth",
+                      })
+                    }
+                    className="flex items-center justify-center gap-x-2 align-baseline bg-gray-600"
+                  >
                     Login with
                     <Image
                       width={50}

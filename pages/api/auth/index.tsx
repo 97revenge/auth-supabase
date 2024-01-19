@@ -5,9 +5,15 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { data, error } = await supabase.auth.signInWithOAuth({
+  const {
+    data: { url },
+    error,
+  } = await supabase.auth.signInWithOAuth({
     provider: "google",
+    options: {
+      redirectTo: "http://localhost:3000/api/session",
+    },
   });
 
-  data ? res.redirect("/feed") : res.json({ error });
+  url ? res.redirect(url) : res.json({ error });
 }
