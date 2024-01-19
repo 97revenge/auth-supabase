@@ -1,5 +1,4 @@
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
-import { supabase } from "@/lib/supabase/supabase";
 
 import { CookieOptions, createServerClient, serialize } from "@supabase/ssr";
 
@@ -22,12 +21,11 @@ export default async function handler(
           res.appendHeader("Set-Cookie", serialize(name, "", options));
         },
       },
+      auth: {
+        flowType: "pkce",
+      },
     }
   );
-
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
 
   const {
     data: { url },
@@ -35,7 +33,7 @@ export default async function handler(
   } = await supabase.auth.signInWithOAuth({
     provider: "google",
     options: {
-      redirectTo: `http://localhost:3000/config/session=${session}`,
+      redirectTo: `http://localhost:3000/config`,
     },
   });
 

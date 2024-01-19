@@ -10,6 +10,7 @@ import {
   type CookieOptions,
   serialize,
 } from "@supabase/ssr";
+import { supabase } from "@/lib/supabase/supabase";
 
 export default function Page({ data }: { data: any }) {
   return <div>{JSON.stringify(data)} </div>;
@@ -18,35 +19,17 @@ export default function Page({ data }: { data: any }) {
 export const getServerSideProps: GetServerSideProps = async (
   context: GetServerSidePropsContext
 ) => {
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        get(name: string) {
-          return context.req.cookies[name];
-        },
-        set(name: string, value: string, options: CookieOptions) {
-          context.res.appendHeader(
-            "Set-Cookie",
-            serialize(name, value, options)
-          );
-        },
-        remove(name: string, options: CookieOptions) {
-          context.res.appendHeader("Set-Cookie", serialize(name, "", options));
-        },
-      },
-    }
+  const { code } = context.query;
+
+  const { data, error } = await supabase.auth.exchangeCodeForSession(
+    "14696d01-476a-402e-b9d6-8838b160b672"
   );
 
-  const {
-    data: { session },
-    error,
-  } = await supabase.auth.getSession();
+  console.log(data);
 
   return {
     props: {
-      user: session?.user,
+      data: code,
     },
   };
 };
