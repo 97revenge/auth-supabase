@@ -1,3 +1,5 @@
+import { PrismaClient } from "@prisma/client";
+
 import {
   createPagesServerClient,
   createServerComponentClient,
@@ -20,12 +22,6 @@ export const getServerSideProps: GetServerSideProps = async (
   context: GetServerSidePropsContext
 ) => {
   const { code } = context.query;
-
-  const { data, error } = await supabase.auth.exchangeCodeForSession(
-    "14696d01-476a-402e-b9d6-8838b160b672"
-  );
-
-  console.log(data);
 
   return {
     props: {
