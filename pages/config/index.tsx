@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 
 import {
+  createPagesBrowserClient,
   createPagesServerClient,
   createServerComponentClient,
   User,
@@ -15,17 +16,34 @@ import {
 import { supabase } from "@/lib/supabase/supabase";
 
 export default function Page({ data }: { data: any }) {
-  return <div>{JSON.stringify(data)} </div>;
+  return <div> {JSON.stringify(data)} </div>;
 }
 
 export const getServerSideProps: GetServerSideProps = async (
-  context: GetServerSidePropsContext
+  ctx: GetServerSidePropsContext
 ) => {
-  const { code } = context.query;
+  // Create authenticated Supabase Client
+  const supabase = createPagesServerClient(ctx);
+  // Check if we have a session
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user)
+    return {
+      redirect: {
+        destination: "/?res='voce nao tem um usuario'",
+        permanent: false,
+      },
+    };
+
+  // Run queries with RLS on the server
+  const { data } = await supabase.from("users").select("*");
 
   return {
     props: {
-      data: code,
+      user,
+      data: data ?? [],
     },
   };
 };

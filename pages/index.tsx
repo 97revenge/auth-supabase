@@ -13,9 +13,19 @@ export default function Page({ data }: { data: string }) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
+  const res = context.query.res;
+
+  if (res) {
+    return {
+      props: {
+        data: res,
+      },
+    };
+  }
+
   return {
     props: {
-      data: "hello",
+      data: "hello world",
     },
   };
 };

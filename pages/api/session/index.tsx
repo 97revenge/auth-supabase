@@ -1,18 +1,22 @@
+import { PrismaClient } from "@prisma/client";
+
 import { NextApiRequest, NextApiResponse } from "next";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
-import type { NextRequest } from "next/server";
+import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
 
-import { supabase } from "@/lib/supabase/supabase";
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  const { code } = req.query;
 
-export default async function handler(req: NextRequest, res: NextApiResponse) {
-  const nextUrl = req.nextUrl.searchParams;
+  const supabase = createPagesServerClient({ req, res });
+  await supabase.auth.exchangeCodeForSession(String(code));
 
   const {
-    data: { session },
-  } = await supabase.auth.getSession();
+    data: { user },
+    error,
+  } = await supabase.auth.getUser();
 
-  const user = session?.user;
-
-  res.json({ data: nextUrl });
+  res.json(user);
 }
