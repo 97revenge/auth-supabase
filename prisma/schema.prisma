@@ -1,46 +1,41 @@
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider          = "postgresql"
-  url               = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
-
 
 model User {
-  id    Int     @id 
-  name  String?
-  email String  @unique
-  phone String @unique
-  like Like[]
-  content Content[]
-  @@map("users")
+  id           Int     @id @default(autoincrement())
+  clientGoogle String? @unique
+  name         String?
 
+  email   String    @unique
+  number  String?    @unique
+  picture String? 
+  like    Like[]
+  content Content[]
+
+  @@map("users")
 }
 
-
-
 model Like {
-id Int @id @default(autoincrement())
-link String 
-owner User @relation(fields: [ownerId] , references: [id])
-ownerId Int
+  id      Int    @id @default(autoincrement())
+  link    String
+  owner   User   @relation(fields: [ownerId], references: [id])
+  ownerId Int
 
-@@map("like")
+  @@map("like")
 }
 
 model Content {
- id Int @id @default(autoincrement())
-title String 
-description String 
-owner User @relation(fields: [ownerId] , references: [id])
-ownerId Int
+  id          Int    @id @default(autoincrement())
+  title       String
+  description String
+  owner       User   @relation(fields: [ownerId], references: [id])
+  ownerId     Int
 
-
-@@map("content")
+  @@map("content")
 }
-
-
-

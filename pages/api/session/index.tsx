@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { createPagesServerClient, User } from "@supabase/auth-helpers-nextjs";
+import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
 
 export default async function handler(
   req: NextApiRequest,
@@ -23,6 +23,20 @@ export default async function handler(
   const phone = session?.user.phone;
   const name = session?.user.user_metadata.name;
   const picture = session?.user.user_metadata.picture;
+
+  const prisma = new PrismaClient();
+
+  const instanceId = await prisma.user.findUnique({
+    where: {
+      clientGoogle: `${id}`,
+    },
+  });
+
+  if (!instanceId) {
+    await prisma.user.create({
+      data: {},
+    });
+  }
 
   res.json({ id, name, email, phone, picture });
 }
