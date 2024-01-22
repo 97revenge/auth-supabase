@@ -19,42 +19,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-export function CardWithForm() {
+export function CardWithForm({ ...props }) {
   return (
     <Card className="w-[600px]">
       <CardHeader>
         <CardTitle>Create project</CardTitle>
-        <CardDescription>Deploy your new project in one-click.</CardDescription>
+        <CardDescription>Deploy your new project in one-click</CardDescription>
       </CardHeader>
-      <CardContent>
-        <form>
-          <div className="grid w-full items-center gap-4">
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="name">Name</Label>
-              <Input id="name" placeholder="Name of your project" />
-            </div>
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="framework">Framework</Label>
-              <Select>
-                <SelectTrigger id="framework">
-                  <SelectValue placeholder="Select" />
-                </SelectTrigger>
-                <SelectContent position="popper">
-                  <SelectItem value="next">Next.js</SelectItem>
-                  <SelectItem value="sveltekit">SvelteKit</SelectItem>
-                  <SelectItem value="astro">Astro</SelectItem>
-                  <SelectItem value="nuxt">Nuxt.js</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <Textarea placeholder="Type your message here." />
-          </div>
-          <CardFooter className="flex justify-between p-2">
-            <Button variant="outline">Cancel</Button>
-            <Button>Publish</Button>
-          </CardFooter>
-        </form>
-      </CardContent>
+      <CardContent {...props}></CardContent>
     </Card>
   );
 }

@@ -26,10 +26,13 @@ import { CardFooter } from "@/components/ui/card";
 
 export default function Page({
   instance,
+  active,
 }: {
   instance: InferGetServerSidePropsType<typeof getServerSideProps>;
+  active: boolean;
 }) {
   const route = useRouter();
+  active === false && route.push({ pathname: `/feed?oauth=${instance?.id}` });
   return (
     <>
       <Gradient>
@@ -79,20 +82,22 @@ export default function Page({
               <form>
                 <div className="grid w-full items-center gap-4">
                   <div className="flex flex-col space-y-1.5">
-                    <Label htmlFor="name">Name</Label>
-                    <Input id="name" placeholder="Name of your project" />
+                    <Label htmlFor="title">Title</Label>
+                    <Input id="title" placeholder="title of your content" />
                   </div>
                   <div className="flex flex-col space-y-1.5">
-                    <Label htmlFor="framework">Framework</Label>
+                    <Label htmlFor="Category">Category</Label>
                     <Select>
-                      <SelectTrigger id="framework">
+                      <SelectTrigger id="Category">
                         <SelectValue placeholder="Select" />
                       </SelectTrigger>
-                      <SelectContent position="popper">
-                        <SelectItem value="next">Next.js</SelectItem>
-                        <SelectItem value="sveltekit">SvelteKit</SelectItem>
-                        <SelectItem value="astro">Astro</SelectItem>
-                        <SelectItem value="nuxt">Nuxt.js</SelectItem>
+                      <SelectContent position="item-aligned">
+                        <SelectItem value="Technology">Technology</SelectItem>
+                        <SelectItem value="Economy">Economy</SelectItem>
+                        <SelectItem value="Philosophy">Philosophy</SelectItem>
+                        <SelectItem value="Administration">
+                          Administration
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -124,9 +129,17 @@ export const getServerSideProps: GetServerSideProps = async (
     },
   });
 
-  return {
-    props: {
-      instance,
-    },
-  };
+  if (!oauth) {
+    return {
+      props: {
+        active: false,
+      },
+    };
+  } else {
+    return {
+      props: {
+        instance,
+      },
+    };
+  }
 };
