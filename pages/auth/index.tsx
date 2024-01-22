@@ -158,10 +158,11 @@ export default function Page({ error }: { error: any }) {
 export const getServerSideProps: GetServerSideProps = async (
   ctx: GetServerSidePropsContext
 ) => {
-  const error = ctx.query.error;
+  const error = ctx.query?.error;
+
   return {
     props: {
-      error,
+      error: error ?? [],
     },
   };
 };

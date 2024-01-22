@@ -1,25 +1,21 @@
-import { PrismaClient } from "@prisma/client";
+import {
+  GetServerSideProps,
+  GetServerSidePropsContext,
+  InferGetServerSidePropsType,
+} from "next";
 
-import { GetServerSideProps, GetServerSidePropsContext } from "next";
+import { PrismaClient } from "@prisma/client";
+import { AvatarDemo } from "@/components/Avatar";
 
 export default function Page({
   instance,
 }: {
-  instance: {
-    id: number;
-    clientGoogle: string;
-    name: string;
-    email: string;
-    number: string;
-    picture: string;
-  };
+  instance: InferGetServerSidePropsType<typeof getServerSideProps>;
 }) {
   return (
     <>
-      <div>
-        {instance?.name}
-        {instance?.email}
-      </div>
+      <AvatarDemo source={instance?.picture} />
+      <div>{instance?.name}</div>
     </>
   );
 }
@@ -36,8 +32,6 @@ export const getServerSideProps: GetServerSideProps = async (
       clientGoogle: oauth as string,
     },
   });
-
-  console.log(instance);
 
   return {
     props: {

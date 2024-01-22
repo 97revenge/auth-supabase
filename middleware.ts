@@ -9,7 +9,7 @@ export default function middleware(req: NextRequest) {
     return NextResponse.next();
   } else {
     return NextResponse.redirect(
-      new URL(`/auth/error=${"voce precisa autenticacao para usar "}`, req.url)
+      new URL(`/auth?error=${"voce precisa autenticacao para usar "}`, req.url)
     );
   }
 }
