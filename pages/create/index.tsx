@@ -5,14 +5,6 @@ import {
 } from "next";
 
 import { Button } from "@/components/ui/button";
-import {
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { supabase } from "@/lib/supabase/supabase";
 import { PrismaClient } from "@prisma/client";
 import { AvatarDemo } from "@/components/Avatar";
@@ -22,6 +14,15 @@ import { DialogDemo } from "@/components/Dialog";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { CardWithForm } from "@/components/Card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+import { CardFooter } from "@/components/ui/card";
 
 export default function Page({
   instance,
@@ -74,8 +75,35 @@ export default function Page({
         </div>
         <div className="w-full h-auto flex items-center justify-center">
           <div className="py-12">
-            {" "}
-            <CardWithForm />
+            <CardWithForm>
+              <form>
+                <div className="grid w-full items-center gap-4">
+                  <div className="flex flex-col space-y-1.5">
+                    <Label htmlFor="name">Name</Label>
+                    <Input id="name" placeholder="Name of your project" />
+                  </div>
+                  <div className="flex flex-col space-y-1.5">
+                    <Label htmlFor="framework">Framework</Label>
+                    <Select>
+                      <SelectTrigger id="framework">
+                        <SelectValue placeholder="Select" />
+                      </SelectTrigger>
+                      <SelectContent position="popper">
+                        <SelectItem value="next">Next.js</SelectItem>
+                        <SelectItem value="sveltekit">SvelteKit</SelectItem>
+                        <SelectItem value="astro">Astro</SelectItem>
+                        <SelectItem value="nuxt">Nuxt.js</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <Textarea placeholder="Type your message here." />
+                </div>
+                <CardFooter className="flex justify-between p-2">
+                  <Button variant="outline">Cancel</Button>
+                  <Button>Publish</Button>
+                </CardFooter>
+              </form>
+            </CardWithForm>
           </div>
         </div>
       </Gradient>{" "}

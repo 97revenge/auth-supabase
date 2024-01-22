@@ -49,12 +49,12 @@ export function CardWithForm() {
             </div>
             <Textarea placeholder="Type your message here." />
           </div>
+          <CardFooter className="flex justify-between p-2">
+            <Button variant="outline">Cancel</Button>
+            <Button>Publish</Button>
+          </CardFooter>
         </form>
       </CardContent>
-      <CardFooter className="flex justify-between">
-        <Button variant="outline">Cancel</Button>
-        <Button>Publish</Button>
-      </CardFooter>
     </Card>
   );
 }
