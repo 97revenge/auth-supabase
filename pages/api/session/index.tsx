@@ -32,11 +32,20 @@ export default async function handler(
     },
   });
 
-  if (!instanceId) {
-    await prisma.user.create({
-      data: {},
-    });
+  try {
+    if (instanceId === null) {
+      (await prisma.user.create({
+        data: {
+          name: `${name}`,
+          email: email as string,
+          number: `${phone}`,
+          picture: `${picture}`,
+        },
+      })) && res.redirect(`/feed/oauth=${id}`);
+    } else {
+      res.redirect(`/config/oauth=${id}`);
+    }
+  } catch (error) {
+    res.json(error);
   }
-
-  res.json({ id, name, email, phone, picture });
 }

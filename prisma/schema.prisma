@@ -12,8 +12,8 @@ model User {
   clientGoogle String? @unique
   name         String?
 
-  email   String    @unique
-  number  String?    @unique
+  email   String    
+  number  String?   
   picture String? 
   like    Like[]
   content Content[]

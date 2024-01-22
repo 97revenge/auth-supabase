@@ -17,6 +17,7 @@ import { TabsContent } from "@/components/ui/tabs";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { GetServerSideProps, GetServerSidePropsContext } from "next";
 
 const TabsDemo = dynamic(() => import("../../components/Tabs"), {
   loading: ({ error }) =>
@@ -44,7 +45,7 @@ const TabsDemo = dynamic(() => import("../../components/Tabs"), {
   ssr: false,
 });
 
-export default function Page() {
+export default function Page({ error }: { error: any }) {
   const route = useRouter();
   return (
     <>
@@ -138,6 +139,11 @@ export default function Page() {
                     <CardFooter>
                       <Button>Save login</Button>
                     </CardFooter>
+                    {error && (
+                      <>
+                        <span className="bg-red-800">{error}</span>
+                      </>
+                    )}
                   </CardContent>
                 </form>
               </Card>
@@ -148,3 +154,14 @@ export default function Page() {
     </>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (
+  ctx: GetServerSidePropsContext
+) => {
+  const error = ctx.query.error;
+  return {
+    props: {
+      error,
+    },
+  };
+};
