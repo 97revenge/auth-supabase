@@ -10,11 +10,10 @@ datasource db {
 
 
 model User {
-  id    Int     @id @default(autoincrement())
+  id    Int     @id 
   name  String?
-
   email String  @unique
-  number String @unique
+  phone String @unique
   like Like[]
   content Content[]
   @@map("users")

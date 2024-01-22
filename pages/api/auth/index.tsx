@@ -33,7 +33,7 @@ export default async function handler(
   } = await supabase.auth.signInWithOAuth({
     provider: "google",
     options: {
-      redirectTo: `http://localhost:3000/config`,
+      redirectTo: `http://localhost:3000/api/session`,
     },
   });
 

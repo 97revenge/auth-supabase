@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
+import { createPagesServerClient, User } from "@supabase/auth-helpers-nextjs";
 
 export default async function handler(
   req: NextApiRequest,
@@ -14,9 +14,15 @@ export default async function handler(
   await supabase.auth.exchangeCodeForSession(String(code));
 
   const {
-    data: { user },
+    data: { session },
     error,
-  } = await supabase.auth.getUser();
+  } = await supabase.auth.getSession();
 
-  res.json(user);
+  const id = session?.user.id;
+  const email = session?.user.email;
+  const phone = session?.user.phone;
+  const name = session?.user.user_metadata.name;
+  const picture = session?.user.user_metadata.picture;
+
+  res.json({ id, name, email, phone, picture });
 }
